@@ -5,11 +5,12 @@ Liu Hsuan, Kao Tzu-chyi
 
 ### 介紹
 使用Flask編寫網站，串連資料庫將結果呈現在網站上。
+
 本系統以 macOS 進行操作。
 
 ### 準備環境
-python
-[PyCharm](https://www.jetbrains.com/pycharm/download/#section=mac)
+* python
+* [PyCharm](https://www.jetbrains.com/pycharm/download/#section=mac)
 
 ### 啟動步驟
 1. 開啟 PyCharm 
