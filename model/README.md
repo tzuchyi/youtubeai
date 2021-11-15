@@ -5,13 +5,13 @@ Chou Hsin-te, Hsu Ching-wen
 
 ### 介紹
 我們參考GitHub裡面的7組模型，去進行改寫，選擇符合我們需求的模型。
-1.FastText
-2.TextCNN
-3.TextRNN
-4.TextRNN_Att
-5.TextRCNN
-6.DPCNN
-7.Transformers
+1. FastText
+2. TextCNN
+3. TextRNN
+4. TextRNN_Att
+5. TextRCNN
+6. DPCNN
+7. Transformers
 
 ### 準備環境
 python 3.7
