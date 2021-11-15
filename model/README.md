@@ -14,16 +14,15 @@ Chou Hsin-te, Hsu Ching-wen
 7.Transformers
 
 ### 準備環境
-python 3.7 
-pytorch 1.1 
-tqdm 
-sklearn 
-tensorboardX 
+python 3.7
+pytorch 1.1
+tqdm
+sklearn
+tensorboardX
 ### 使用說明
-1.將訓練集、測試集、驗證集及分類名稱，放入THUCNews/Data資料夾 
-
-2.在終端機到指定路徑 
-3.如果用詞，提前分好詞，詞之間用空格隔開，輸入python run.py --model FastText --word True 
-4.預測結果將以ckpt檔形式存取在THUCNews/saved_dict 
+1.將訓練集、測試集、驗證集及分類名稱，放入THUCNews/Data資料夾
+2.在終端機到指定路徑
+3.如果用詞，提前分好詞，詞之間用空格隔開，輸入python run.py --model FastText --word True
+4.預測結果將以ckpt檔形式存取在THUCNews/saved_dict
 ### 參考資料
 [Chinese-Text-Classification-Pytorch](https://github.com/649453932/Chinese-Text-Classification-Pytorch)
