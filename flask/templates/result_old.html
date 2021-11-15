@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+{#TODO 連回影片或崁入#}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {#    TODO description#}
+    <meta name="description" content="YouTube留言輿情分析">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>YouTube留言蜚語</title>
+    <link rel="shortcut icon" href="../static/images/short_icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../static/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    {#TODO 手機板#}
+</head>
+
+<body>
+<!-- HEADER -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href=".">YouTube留言蜚語</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../.">首頁<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../#page-introduction">網頁介紹</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../#sample">使用範例</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../standard">指標說明</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="../contact">聯絡我們</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-- HEADER  -->
+
+
+<div class="bg-box">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+        <a class="nav-link active" id="v-pills-summary-tab" data-toggle="pill" href="#v-pills-summary" role="tab"
+           aria-controls="v-pills-summary" aria-selected="true">總表</a>
+        <a class="nav-link" id="v-pills-yter-tab" data-toggle="pill" href="#v-pills-yter" role="tab"
+           aria-controls="v-pills-yter" aria-selected="false">對YouTuber喜好程度</a>
+        <a class="nav-link" id="v-pills-video-tab" data-toggle="pill" href="#v-pills-video" role="tab"
+           aria-controls="v-pills-video" aria-selected="false">對影片的喜好程度</a>
+        <a class="nav-link" id="v-pills-excitement-tab" data-toggle="pill" href="#v-pills-excitement" role="tab"
+           aria-controls="v-pills-excitement" aria-selected="false">激動程度</a>
+        <a class="nav-link" id="v-pills-irony-tab" data-toggle="pill" href="#v-pills-irony" role="tab"
+           aria-controls="v-pills-irony" aria-selected="false">諷刺程度</a>
+        <a class="nav-link" id="v-pills-sex-tab" data-toggle="pill" href="#v-pills-sex" role="tab"
+           aria-controls="v-pills-sex" aria-selected="false">腥羶色程度</a>
+    </div>
+
+    <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade active show in" id="v-pills-summary" role="tabpanel"
+             aria-labelledby="v-pills-summary-tab">
+            <div class="title-bar">{{ info.v_name }}</div>
+            <div class="video-box">
+                <iframe name="frame" id="frame" src="https://www.youtube.com/embed/{{ info.v_id }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="info-bar">
+                <div class="info-box">
+                    Channel：{{ info.channel }}<br>
+                    {#                    TODO Hashtag if無#}
+                    Hashtag：{{ info.hashtag }}<br>
+                    Description：{{ info.description }}
+                </div>
+                <div class="spider-box">
+                    <div id="spider" style="height: 150px;width: 100%;"></div>
+                </div>
+            </div>
+
+            {#            TODO div#}
+            <div class="score-bar">
+                <div class="meter-box" id="meter_1"></div>
+                <div class="meter-box" id="meter_2"></div>
+                <div class="meter-box" id="meter_3"></div>
+                <div class="meter-box" id="meter_4"></div>
+                <div class="meter-box" id="meter_5"></div>
+            </div>
+
+            <div class="chart-bar-1">
+                <div id="muti_column" style="width: 100%;height: 100%"></div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-yter" role="tabpanel" aria-labelledby="v-pills-yter-tab">
+            <div class="title-bar">對YouTuber喜好程度</div>
+            <div class="box-3">
+                <div class="score-box-1">
+                    Title：{{ info.v_name }}<br>
+                    Channel：{{ info.channel }}<br>
+                </div>
+                <div class="score-box-2">留言總數<br><span
+                        class="count">{{ scores.com_num.yter.v20+scores.com_num.yter.v40+scores.com_num.yter.v60+scores.com_num.yter.v80+scores.com_num.yter.v100 }}</span>
+                </div>
+                <div class="each_meter" id="each_meter_1"></div>
+            </div>
+            <div class="chart-bar-2">
+                <div class="chart-box-left">
+                    <div id="column_1"></div>
+                </div>
+                <div class="chart-box-right">
+                    <div id="pie_1"></div>
+                </div>
+            </div>
+            <div class="comment-box">
+                <div class="comment-nav">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="yter_five-tab" data-toggle="tab" href="#yter_five"
+                               role="tab" aria-controls="yter_five" aria-selected="true">5分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="yter_four-tab" data-toggle="tab" href="#yter_four"
+                               role="tab" aria-controls="yter_four" aria-selected="false">4分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="yter_three-tab" data-toggle="tab" href="#yter_three"
+                               role="tab" aria-controls="yter_three" aria-selected="false">3分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="yter_two-tab" data-toggle="tab" href="#yter_two"
+                               role="tab" aria-controls="yter_two" aria-selected="false">2分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="yter_one-tab" data-toggle="tab" href="#yter_one"
+                               role="tab" aria-controls="yter_one" aria-selected="false">1分</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show in" id="yter_five" role="tabpanel"
+                         aria-labelledby="yter_five-tab">
+                        {% for item in scores.yter_scores %}
+                            {% if item.yter_grade == 100 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="yter_four" role="tabpanel"
+                         aria-labelledby="yter_four-tab">
+                        {% for item in scores.yter_scores %}
+                            {% if item.yter_grade == 80 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="yter_three" role="tabpanel"
+                         aria-labelledby="yter_three-tab">
+                        {% for item in scores.yter_scores %}
+                            {% if item.yter_grade == 60 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="yter_two" role="tabpanel"
+                         aria-labelledby="yter_two-tab">
+                        {% for item in scores.yter_scores %}
+                            {% if item.yter_grade == 40 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="yter_one" role="tabpanel"
+                         aria-labelledby="yter_one-tab">
+                        {% for item in scores.yter_scores %}
+                            {% if item.yter_grade == 20 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-video" role="tabpanel" aria-labelledby="v-pills-video-tab">
+            <div class="title-bar">對影片喜好程度</div>
+            <div class="box-3">
+                <div class="score-box-1">
+                    Title：{{ info.v_name }}<br>
+                    Channel：{{ info.channel }}<br>
+                </div>
+                <div class="score-box-2">留言總數<br><span
+                        class="count">{{ scores.com_num.v.v20+scores.com_num.v.v40+scores.com_num.v.v60+scores.com_num.v.v80+scores.com_num.v.v100 }}</span>
+                </div>
+                <div class="each_meter" id="each_meter_2"></div>
+            </div>
+            <div class="chart-bar-2">
+                <div class="chart-box-left">
+                    <div id="column_2"></div>
+                </div>
+                <div class="chart-box-right">
+                    <div id="pie_2"></div>
+                </div>
+            </div>
+            <div class="comment-box">
+                <div class="comment-nav">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="v_five-tab" data-toggle="tab" href="#v_five"
+                               role="tab" aria-controls="v_five" aria-selected="true">5分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="v_four-tab" data-toggle="tab" href="#v_four"
+                               role="tab" aria-controls="v_four" aria-selected="false">4分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="v_three-tab" data-toggle="tab" href="#v_three"
+                               role="tab" aria-controls="v_three" aria-selected="false">3分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="v_two-tab" data-toggle="tab" href="#v_two"
+                               role="tab" aria-controls="v_two" aria-selected="false">2分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="v_one-tab" data-toggle="tab" href="#v_one"
+                               role="tab" aria-controls="v_one" aria-selected="false">1分</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show in" id="v_five" role="tabpanel"
+                         aria-labelledby="v_five-tab">
+                        {% for item in scores.v_scores %}
+                            {% if item.v_grade == 100 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="v_four" role="tabpanel"
+                         aria-labelledby="v_four-tab">
+                        {% for item in scores.v_scores %}
+                            {% if item.v_grade == 80 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="v_three" role="tabpanel"
+                         aria-labelledby="v_three-tab">
+                        {% for item in scores.v_scores %}
+                            {% if item.v_grade == 60 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="v_two" role="tabpanel"
+                         aria-labelledby="v_two-tab">
+                        {% for item in scores.v_scores %}
+                            {% if item.v_grade == 40 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="v_one" role="tabpanel"
+                         aria-labelledby="v_one-tab">
+                        {% for item in scores.v_scores %}
+                            {% if item.v_grade == 20 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-excitement" role="tabpanel" aria-labelledby="v-pills-excitement-tab">
+            <div class="title-bar">激動程度</div>
+            <div class="box-3">
+                <div class="score-box-1">
+                    Title：{{ info.v_name }}<br>
+                    Channel：{{ info.channel }}<br>
+                </div>
+                <div class="score-box-2">留言總數<br><span
+                        class="count">{{ scores.com_num.ex.v20+scores.com_num.ex.v40+scores.com_num.ex.v60+scores.com_num.ex.v80+scores.com_num.ex.v100 }}</span>
+                </div>
+                <div class="each_meter" id="each_meter_3"></div>
+            </div>
+            <div class="chart-bar-2">
+                <div class="chart-box-left">
+                    <div id="column_3"></div>
+                </div>
+                <div class="chart-box-right">
+                    <div id="pie_3"></div>
+                </div>
+            </div>
+            <div class="comment-box">
+                <div class="comment-nav">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="ex_five-tab" data-toggle="tab" href="#ex_five"
+                               role="tab" aria-controls="ex_five" aria-selected="true">5分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex_four-tab" data-toggle="tab" href="#ex_four"
+                               role="tab" aria-controls="ex_four" aria-selected="false">4分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex_three-tab" data-toggle="tab" href="#ex_three"
+                               role="tab" aria-controls="ex_three" aria-selected="false">3分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex_two-tab" data-toggle="tab" href="#ex_two"
+                               role="tab" aria-controls="ex_two" aria-selected="false">2分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex_one-tab" data-toggle="tab" href="#ex_one"
+                               role="tab" aria-controls="ex_one" aria-selected="false">1分</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show in" id="ex_five" role="tabpanel"
+                         aria-labelledby="ex_five-tab">
+                        {% for item in scores.ex_scores %}
+                            {% if item.ex_grade == 100 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ex_four" role="tabpanel"
+                         aria-labelledby="ex_four-tab">
+                        {% for item in scores.ex_scores %}
+                            {% if item.ex_grade == 80 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ex_three" role="tabpanel"
+                         aria-labelledby="ex_three-tab">
+                        {% for item in scores.ex_scores %}
+                            {% if item.ex_grade == 60 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ex_two" role="tabpanel"
+                         aria-labelledby="ex_two-tab">
+                        {% for item in scores.ex_scores %}
+                            {% if item.ex_grade == 40 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ex_one" role="tabpanel"
+                         aria-labelledby="ex_one-tab">
+                        {% for item in scores.ex_scores %}
+                            {% if item.ex_grade == 20 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-irony" role="tabpanel" aria-labelledby="v-pills-irony-tab">
+            <div class="title-bar">諷刺程度</div>
+            <div class="box-3">
+                <div class="score-box-1">
+                    Title：{{ info.v_name }}<br>
+                    Channel：{{ info.channel }}<br>
+                </div>
+                <div class="score-box-2">留言總數<br><span
+                        class="count">{{ scores.com_num.ir.v20+scores.com_num.ir.v40+scores.com_num.ir.v60+scores.com_num.ir.v80+scores.com_num.ir.v100 }}</span>
+                </div>
+                <div class="each_meter" id="each_meter_4"></div>
+            </div>
+            <div class="chart-bar-2">
+                <div class="chart-box-left">
+                    <div id="column_4"></div>
+                </div>
+                <div class="chart-box-right">
+                    <div id="pie_4"></div>
+                </div>
+            </div>
+            <div class="comment-box">
+                <div class="comment-nav">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="ir_five-tab" data-toggle="tab" href="#ir_five"
+                               role="tab" aria-controls="ir_five" aria-selected="true">5分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ir_four-tab" data-toggle="tab" href="#ir_four"
+                               role="tab" aria-controls="ir_four" aria-selected="false">4分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ir_three-tab" data-toggle="tab" href="#ir_three"
+                               role="tab" aria-controls="ir_three" aria-selected="false">3分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ir_two-tab" data-toggle="tab" href="#ir_two"
+                               role="tab" aria-controls="ir_two" aria-selected="false">2分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ir_one-tab" data-toggle="tab" href="#ir_one"
+                               role="tab" aria-controls="ir_one" aria-selected="false">1分</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show in" id="ir_five" role="tabpanel"
+                         aria-labelledby="ir_five-tab">
+                        {% for item in scores.ir_scores %}
+                            {% if item.ir_grade == 100 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ir_four" role="tabpanel"
+                         aria-labelledby="ir_four-tab">
+                        {% for item in scores.ir_scores %}
+                            {% if item.ir_grade == 80 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ir_three" role="tabpanel"
+                         aria-labelledby="ir_three-tab">
+                        {% for item in scores.ir_scores %}
+                            {% if item.ir_grade == 60 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ir_two" role="tabpanel"
+                         aria-labelledby="ir_two-tab">
+                        {% for item in scores.ir_scores %}
+                            {% if item.ir_grade == 40 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="ir_one" role="tabpanel"
+                         aria-labelledby="ir_one-tab">
+                        {% for item in scores.ir_scores %}
+                            {% if item.ir_grade == 20 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-sex" role="tabpanel" aria-labelledby="v-pills-sex-tab">
+            <div class="title-bar">腥羶色</div>
+            <div class="box-3">
+                <div class="score-box-1">
+                    Title：{{ info.v_name }}<br>
+                    Channel：{{ info.channel }}<br>
+                </div>
+                <div class="score-box-2">留言總數<br><span
+                        class="count">{{ scores.com_num.se.v20+scores.com_num.se.v40+scores.com_num.se.v60+scores.com_num.se.v80+scores.com_num.se.v100 }}</span>
+                </div>
+                <div class="each_meter" id="each_meter_5"></div>
+            </div>
+            <div class="chart-bar-2">
+                <div class="chart-box-left">
+                    <div id="column_5"></div>
+                </div>
+                <div class="chart-box-right">
+                    <div id="pie_5"></div>
+                </div>
+            </div>
+            <div class="comment-box">
+                <div class="comment-nav">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="sex_five-tab" data-toggle="tab" href="#sex_five"
+                               role="tab" aria-controls="sex_five" aria-selected="true">5分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="sex_four-tab" data-toggle="tab" href="#sex_four"
+                               role="tab" aria-controls="sex_four" aria-selected="false">4分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="sex_three-tab" data-toggle="tab" href="#sex_three"
+                               role="tab" aria-controls="sex_three" aria-selected="false">3分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="sex_two-tab" data-toggle="tab" href="#sex_two"
+                               role="tab" aria-controls="sex_two" aria-selected="false">2分</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="sex_one-tab" data-toggle="tab" href="#sex_one"
+                               role="tab" aria-controls="sex_one" aria-selected="false">1分</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show in" id="sex_five" role="tabpanel"
+                         aria-labelledby="sex_five-tab">
+                        {% for item in scores.se_scores %}
+                            {% if item.se_grade == 100 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="sex_four" role="tabpanel"
+                         aria-labelledby="sex_four-tab">
+                        {% for item in scores.se_scores %}
+                            {% if item.se_grade == 80 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="sex_three" role="tabpanel"
+                         aria-labelledby="sex_three-tab">
+                        {% for item in scores.se_scores %}
+                            {% if item.se_grade == 60 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="sex_two" role="tabpanel"
+                         aria-labelledby="sex_two-tab">
+                        {% for item in scores.se_scores %}
+                            {% if item.se_grade == 40 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="sex_one" role="tabpanel"
+                         aria-labelledby="sex_one-tab">
+                        {% for item in scores.se_scores %}
+                            {% if item.se_grade == 20 %}
+                                {{ item.text }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{##}
+{#<script src="../static/js/jquery.2.2.3.min.js"></script>#}
+{#<script src="../static/js/bootstrap.min.js"></script>#}
+{#<script src="../static/js/jquery.appear.js"></script>#}
+{#<script src="../static/js/jquery-countTo.js"></script>#}
+{#<script src="../static/js/owl.carousel.min.js"></script>#}
+{#<script src="../static/js/jquery.fancybox.min.js"></script>#}
+{#<script src="../static/js/bootsnav.js"></script>#}
+{#<script src="../static/js/zelect.js"></script>#}
+{#<script src="../static/js/parallax.min.js"></script>#}
+{#<script src="../static/js/modernizr.custom.26633.js"></script>#}
+{#<script src="../static/js/jquery.gridrotator.js"></script>#}
+{#<script src="../static/js/functions.js"></script>#}
+{#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"#}
+{#        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"#}
+{#        crossorigin="anonymous"></script>#}
+{#<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"#}
+{#        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"#}
+{#        crossorigin="anonymous"></script>#}
+<script src="https://kit.fontawesome.com/bfeb6fe22a.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+<script>
+    // Build the chart
+
+
+    Highcharts.chart('pie_1', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: 'Youtuber喜好程度分數分佈'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b> {point.y} ({point.percentage:.1f}%)</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: '留言數',
+            colorByPoint: true,
+            data: [{
+                name: '一分',
+                y: {{ scores.com_num.yter.v20 }}
+            }, {
+                name: '兩分',
+                y: {{ scores.com_num.yter.v40 }}
+            }, {
+                name: '三分',
+                y: {{ scores.com_num.yter.v60 }}
+            }, {
+                name: '四分',
+                y: {{ scores.com_num.yter.v80 }}
+            }, {
+                name: '五分',
+                y: {{ scores.com_num.yter.v100 }}
+            }]
+        }]
+    });
+
+    Highcharts.chart('pie_2', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: ' 影片喜好程度分數分佈'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b> {point.y} ({point.percentage:.1f}%)</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: '留言數',
+            colorByPoint: true,
+            data: [{
+                name: '一分',
+                y: {{ scores.com_num.v.v20 }}
+            }, {
+                name: '兩分',
+                y: {{ scores.com_num.v.v40 }}
+            }, {
+                name: '三分',
+                y: {{ scores.com_num.v.v60 }}
+            }, {
+                name: '四分',
+                y: {{ scores.com_num.v.v80 }}
+            }, {
+                name: '五分',
+                y: {{ scores.com_num.v.v100 }}
+            }]
+        }]
+    });
+
+    Highcharts.chart('pie_3', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '激動程度分數分佈'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b> {point.y} ({point.percentage:.1f}%)</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: '留言數',
+            colorByPoint: true,
+            data: [{
+                name: '一分',
+                y: {{ scores.com_num.ex.v20 }}
+            }, {
+                name: '兩分',
+                y: {{ scores.com_num.ex.v40 }}
+            }, {
+                name: '三分',
+                y: {{ scores.com_num.ex.v60 }}
+            }, {
+                name: '四分',
+                y: {{ scores.com_num.ex.v80 }}
+            }, {
+                name: '五分',
+                y: {{ scores.com_num.ex.v100 }}
+            }]
+        }]
+    });
+
+    Highcharts.chart('pie_4', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '諷刺程度分數分佈'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b> {point.y} ({point.percentage:.1f}%)</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: '留言數',
+            colorByPoint: true,
+            data: [{
+                name: '一分',
+                y: {{ scores.com_num.ir.v20 }}
+            }, {
+                name: '兩分',
+                y: {{ scores.com_num.ir.v40 }}
+            }, {
+                name: '三分',
+                y: {{ scores.com_num.ir.v60 }}
+            }, {
+                name: '四分',
+                y: {{ scores.com_num.ir.v80 }}
+            }, {
+                name: '五分',
+                y: {{ scores.com_num.ir.v100 }}
+            }]
+        }]
+    });
+
+    Highcharts.chart('pie_5', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '腥羶色程度分數分佈'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b> {point.y} ({point.percentage:.1f}%)</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: '留言數',
+            colorByPoint: true,
+            data: [{
+                name: '一分',
+                y: {{ scores.com_num.se.v20 }}
+            }, {
+                name: '兩分',
+                y: {{ scores.com_num.se.v40 }}
+            }, {
+                name: '三分',
+                y: {{ scores.com_num.se.v60 }}
+            }, {
+                name: '四分',
+                y: {{ scores.com_num.se.v80 }}
+            }, {
+                name: '五分',
+                y: {{ scores.com_num.se.v100 }}
+            }]
+        }]
+    });
+</script>
+
+
+{#各指標長條圖#}
+<script>
+
+
+    Highcharts.chart('column_1', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: 'Youtuber喜愛程度分數分佈'
+        },
+
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '留言數'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 則留言</b>'
+        },
+        series: [{
+            name: '個數',
+            data: [
+                ['一分', {{ scores.com_num.yter.v20 }}],
+                ['兩分', {{ scores.com_num.yter.v40 }}],
+                ['三分', {{ scores.com_num.yter.v60 }}],
+                ['四分', {{ scores.com_num.yter.v80 }}],
+                ['五分', {{ scores.com_num.yter.v100 }}]
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: 0,
+                color: '#FFFFFF',
+                align: 'center',
+                format: '{point.y}', // one decimal
+                y: 0,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+    Highcharts.chart('column_2', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '影片喜愛程度分數分佈'
+        },
+
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '留言數'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 則留言</b>'
+        },
+        series: [{
+            name: '個數',
+            data: [
+                ['一分', {{ scores.com_num.v.v20 }}],
+                ['兩分', {{ scores.com_num.v.v40 }}],
+                ['三分', {{ scores.com_num.v.v60 }}],
+                ['四分', {{ scores.com_num.v.v80 }}],
+                ['五分', {{ scores.com_num.v.v100 }}]
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: 0,
+                color: '#FFFFFF',
+                align: 'center',
+                format: '{point.y}', // one decimal
+                y: 0,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+    Highcharts.chart('column_3', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '激動程度分數分佈'
+        },
+
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '留言數'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 則留言</b>'
+        },
+        series: [{
+            name: '個數',
+            data: [
+                ['一分', {{ scores.com_num.ex.v20 }}],
+                ['兩分', {{ scores.com_num.ex.v40 }}],
+                ['三分', {{ scores.com_num.ex.v60 }}],
+                ['四分', {{ scores.com_num.ex.v80 }}],
+                ['五分', {{ scores.com_num.ex.v100 }}]
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: 0,
+                color: '#FFFFFF',
+                align: 'center',
+                format: '{point.y}', // one decimal
+                y: 0,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+    Highcharts.chart('column_4', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '諷刺程度分數分佈'
+        },
+
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '留言數'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 則留言</b>'
+        },
+        series: [{
+            name: '個數',
+            data: [
+                ['一分', {{ scores.com_num.ir.v20 }}],
+                ['兩分', {{ scores.com_num.ir.v40 }}],
+                ['三分', {{ scores.com_num.ir.v60 }}],
+                ['四分', {{ scores.com_num.ir.v80 }}],
+                ['五分', {{ scores.com_num.ir.v100 }}]
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: 0,
+                color: '#ffffff',
+                align: 'center',
+                format: '{point.y}', // one decimal
+                y: 0,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+    Highcharts.chart('column_5', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+        title: {
+            text: '腥羶色程度分數分佈'
+        },
+
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '留言數'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 則留言</b>'
+        },
+        series: [{
+            name: '個數',
+            data: [
+                ['一分', {{ scores.com_num.se.v20 }}],
+                ['兩分', {{ scores.com_num.se.v40 }}],
+                ['三分', {{ scores.com_num.se.v60 }}],
+                ['四分', {{ scores.com_num.se.v80 }}],
+                ['五分', {{ scores.com_num.se.v100 }}]
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: 0,
+                color: '#FFFFFF',
+                align: 'center',
+                format: '{point.y}', // one decimal
+                y: 0,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
+
+</script>
+
+{#    蜘蛛網#}
+<script>
+    Highcharts.chart('spider', {
+        chart: {
+            polar: true,
+            type: 'line',
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+        },
+
+        title: {
+            text: '五大指標平均',
+            x: 0
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: ['YouTuber喜愛程度',
+                '影片喜愛程度',
+                '激動程度',
+                '諷刺程度',
+                '腥羶色程度'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:.2f}分</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'middle',
+            layout: 'vertical'
+        },
+
+        series: [{
+            name: '',
+            data: [{{ scores.avg.yter }}, {{ scores.avg.v }}, {{ scores.avg.ex }}, {{ scores.avg.ir }}, {{ scores.avg.se }}],
+            pointPlacement: 'on'
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    pane: {
+                        size: '70%'
+                    }
+                }
+            }]
+        }
+    });
+
+
+</script>
+
+
+{#五個指標長條圖#}
+<script>
+
+    Highcharts.chart('muti_column', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(255,255,255,0)',
+
+        },
+        title: {
+            text: '五大指標分數分佈'
+        },
+        subtitle: {
+            text: '預測分數'
+        },
+        xAxis: {
+            categories: [
+                'YouTuber喜愛程度',
+                '影片喜愛程度',
+                '激動程度',
+                '諷刺程度',
+                '腥羶色程度'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '留言個數'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y} 則</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: '一分',
+            data: [{{ scores.com_num.yter.v20 }}, {{ scores.com_num.v.v20 }}, {{ scores.com_num.ex.v20 }}, {{ scores.com_num.ir.v20 }}, {{ scores.com_num.se.v20 }}]
+
+        }, {
+            name: '兩分',
+            data: [{{ scores.com_num.yter.v40 }}, {{ scores.com_num.v.v40 }}, {{ scores.com_num.ex.v40 }}, {{ scores.com_num.ir.v40 }}, {{ scores.com_num.se.v40 }}]
+
+        }, {
+            name: '三分',
+            data: [{{ scores.com_num.yter.v60 }}, {{ scores.com_num.v.v60 }}, {{ scores.com_num.ex.v60 }}, {{ scores.com_num.ir.v60 }}, {{ scores.com_num.se.v60 }}]
+
+        }, {
+            name: '四分',
+            data: [{{ scores.com_num.yter.v80 }}, {{ scores.com_num.v.v80 }}, {{ scores.com_num.ex.v80 }}, {{ scores.com_num.ir.v80 }}, {{ scores.com_num.se.v80 }}]
+
+        }, {
+            name: '五分',
+            data: [{{ scores.com_num.yter.v100 }}, {{ scores.com_num.v.v100 }}, {{ scores.com_num.ex.v100 }}, {{ scores.com_num.ir.v100 }}, {{ scores.com_num.se.v100 }}]
+
+        }]
+    });
+
+
+</script>
+
+{#    儀表板#}
+<script>
+    var gaugeOptions = {
+        chart: {
+            type: 'solidgauge',
+            backgroundColor: 'rgba(255,255,255,0)',
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '100%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor:
+                    Highcharts.defaultOptions.legend.backgroundColor || '#dbdbdb',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            stops: [
+                [0.1, '#55BF3B'], // green
+                [0.5, '#DDDF0D'], // yellow
+                [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            tickWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
+            title: {
+                y: -50
+            },
+            labels: {
+                distance: -10,
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+
+    // 資料
+    var chartSpeed = Highcharts.chart('meter_1', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: 'YouTuber喜愛程度'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.yter }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('meter_2', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: 'video喜愛程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.v }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('meter_3', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: '激動程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.ex }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('meter_4', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: '諷刺程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.ir }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('meter_5', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: '腥羶色程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.se }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+
+    var chartSpeed = Highcharts.chart('each_meter_1', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: 'YouTuber喜愛程度'
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.yter }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('each_meter_2', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: 'video喜愛程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.v }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('each_meter_3', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: '激動程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.ex }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('each_meter_4', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: '諷刺程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.ir }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    // 資料
+    var chartSpeed = Highcharts.chart('each_meter_5', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 1,
+            max: 5,
+            title: {
+                text: '腥羶色程度'
+            }
+
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [{{ scores.avg.se }}],
+            dataLabels: {
+                format:
+                    '<div style="text-align:center">' +
+                    '<span style="font-size:17px">{y:.2f}</span><br/>' +
+                    '<span style="font-size:12px;opacity:0.4">分</span>' +
+                    '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' 分'
+            }
+        }]
+
+    }));
+
+    $('.count').each(function () {
+        $(this).prop('Counter', 0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 4000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+
+</script>
+<script>
+    var cw = $('.video-box').width();
+    $('.video-box').css({
+        'height': cw * 9 / 16 + 'px'
+    });
+</script>
+
+</body>
+
+</html>
