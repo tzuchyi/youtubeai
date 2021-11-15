@@ -14,11 +14,11 @@ Chou Hsin-te, Hsu Ching-wen
 7. Transformers
 
 ### 準備環境
-python 3.7
-pytorch 1.1
-tqdm
-sklearn
-tensorboardX
+* python 3.7
+* pytorch 1.1
+* tqdm
+* sklearn
+* tensorboardX
 ### 使用說明
 1.將訓練集、測試集、驗證集及分類名稱，放入THUCNews/Data資料夾
 2.在終端機到指定路徑
