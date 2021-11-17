@@ -2,5 +2,5 @@
 - [website](https://demo.jlwu.info:1108/youtubeai/)
 
 ## 成果
-- [初賽成果](https://github.com/tzuchyi/post_competition/blob/master/%E9%83%B5%E5%B1%80%E5%A4%A7%E6%95%B8%E6%93%9A.pdf)
+- [成果報告](https://github.com/tzuchyi/youtubeai/blob/main/專題實作期末成果報告書0115.pdf)
 
