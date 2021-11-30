@@ -11,7 +11,7 @@
 4. 分析結果回傳資料庫
 5. 回覆網頁伺服器請求結果
 6. 網頁伺服器計算分析結果
-7. 網站呈現 **歡迎到-[網站](https://demo.jlwu.info:1108/youtubeai/)玩玩看！**
+7. 網站呈現 **歡迎到[網站](https://demo.jlwu.info:1108/youtubeai/)玩玩看！**
 
 ## 模型
 - [模型訓練](https://github.com/tzuchyi/youtubeai/tree/main/model)
